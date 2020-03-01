@@ -107,9 +107,43 @@ const StackSetting = createStackNavigator();
 
 function NotificationsScreen({navigation}) {
   return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <Button onPress={() => navigation.goBack()} title="Go back home" />
-    </View>
+    <SafeAreaView style={{flex: 1}}>
+      <CustomHeader title="Notifications" navigation={navigation} />
+      <View style={styles.setting}>
+        <Text>Notifications Screen!</Text>
+      </View>
+    </SafeAreaView>
+  );
+}
+
+function RegisterScreen({navigation}) {
+  return (
+    <SafeAreaView style={{flex: 1}}>
+      <CustomHeader title="Register" navigation={navigation} />
+      <View style={styles.setting}>
+        <Text>Register Screen!</Text>
+      </View>
+    </SafeAreaView>
+  );
+}
+
+function LoginScreen({navigation}) {
+  return (
+    <SafeAreaView style={{flex: 1}}>
+      <View style={styles.setting}>
+        <Text>Login Screen!</Text>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate('HomeApp')}>
+          <Text>Login</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate('Register')}>
+          <Text>Register</Text>
+        </TouchableOpacity>
+      </View>
+    </SafeAreaView>
   );
 }
 
@@ -217,15 +251,39 @@ function TabNavigator() {
 
 const Drawer = createDrawerNavigator();
 
+function DrawerNavigator() {
+  return (
+    <Drawer.Navigator
+      initialRouteName="MenuTab"
+      drawerContent={props => CustomDrawerContent(props)}>
+      <Drawer.Screen name="MenuTab" component={TabNavigator} />
+      <Drawer.Screen name="Notifications" component={NotificationsScreen} />
+    </Drawer.Navigator>
+  );
+}
+
+const StackApp = createStackNavigator();
+
 export default function App() {
   return (
     <NavigationContainer>
-      <Drawer.Navigator
-        initialRouteName="MenuTab"
-        drawerContent={props => CustomDrawerContent(props)}>
-        <Drawer.Screen name="MenuTab" component={TabNavigator} />
-        <Drawer.Screen name="Notifications" component={NotificationsScreen} />
-      </Drawer.Navigator>
+      <StackApp.Navigator initialRouteName="Login">
+        <StackApp.Screen
+          name="HomeApp"
+          component={DrawerNavigator}
+          options={navOptionHandler}
+        />
+        <StackApp.Screen
+          name="Login"
+          component={LoginScreen}
+          options={navOptionHandler}
+        />
+        <StackApp.Screen
+          name="Register"
+          component={RegisterScreen}
+          options={navOptionHandler}
+        />
+      </StackApp.Navigator>
     </NavigationContainer>
   );
 }
