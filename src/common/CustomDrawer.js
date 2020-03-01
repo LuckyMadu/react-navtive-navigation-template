@@ -28,6 +28,11 @@ export class CustomDrawer extends Component {
             onPress={() => this.props.navigation.navigate('Notifications')}>
             <Text>Notifications</Text>
           </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => this.props.navigation.navigate('Login')}>
+            <Text>LogOut</Text>
+          </TouchableOpacity>
         </ScrollView>
       </SafeAreaView>
     );

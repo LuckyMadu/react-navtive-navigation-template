@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {CustomHeader} from '../index';
-
+import DefaultText from '../core/DefaultText';
 export class HomeScreen extends Component {
   render() {
     return (
@@ -22,7 +22,7 @@ export class HomeScreen extends Component {
           <TouchableOpacity
             style={styles.button}
             onPress={() => this.props.navigation.navigate('HomeDetail')}>
-            <Text>Go Home Detail</Text>
+            <DefaultText content="Go Home Details" style={{fontSize: 20}} />
           </TouchableOpacity>
         </View>
       </SafeAreaView>
