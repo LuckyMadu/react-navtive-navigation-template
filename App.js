@@ -6,21 +6,26 @@ import {
   SafeAreaView,
   Image,
   TouchableOpacity,
+  Button,
+  ScrollView,
 } from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createStackNavigator} from '@react-navigation/stack';
+import {createDrawerNavigator} from '@react-navigation/drawer';
 
 const CustomHeader = ({title, isHome, navigation}) => {
   return (
     <View style={styles.header}>
       <View style={styles.col1}>
         {isHome ? (
-          <Image
-            style={styles.image}
-            source={require('./src/images/menu.png')}
-            resizeMode="contain"
-          />
+          <TouchableOpacity onPress={() => navigation.openDrawer()}>
+            <Image
+              style={styles.image}
+              source={require('./src/images/menu.png')}
+              resizeMode="contain"
+            />
+          </TouchableOpacity>
         ) : (
           <TouchableOpacity
             style={styles.back}
@@ -46,7 +51,7 @@ const CustomHeader = ({title, isHome, navigation}) => {
 function HomeScreen({navigation}) {
   return (
     <SafeAreaView style={{flex: 1}}>
-      <CustomHeader title="Home" isHome={true} />
+      <CustomHeader title="Home" isHome={true} navigation={navigation} />
       <View style={styles.home}>
         <Text>Home!</Text>
         <TouchableOpacity
@@ -73,7 +78,7 @@ function HomeDetailScreen({navigation}) {
 function SettingsScreen({navigation}) {
   return (
     <SafeAreaView style={{flex: 1}}>
-      <CustomHeader title="Settings" isHome={true} />
+      <CustomHeader title="Settings" isHome={true} navigation={navigation} />
       <View style={styles.setting}>
         <Text>Settings!</Text>
         <TouchableOpacity
@@ -99,6 +104,40 @@ function SettingsDetailScreen({navigation}) {
 
 const StackHome = createStackNavigator();
 const StackSetting = createStackNavigator();
+
+function NotificationsScreen({navigation}) {
+  return (
+    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+      <Button onPress={() => navigation.goBack()} title="Go back home" />
+    </View>
+  );
+}
+
+function CustomDrawerContent(props) {
+  return (
+    <SafeAreaView style={styles.drawerWrapper}>
+      <View style={styles.profile}>
+        <Image
+          source={require('./src/images/profile.png')}
+          style={styles.profileImage}
+        />
+      </View>
+      <ScrollView>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => props.navigation.navigate('MenuTab')}>
+          <Text>Menu Tab</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => props.navigation.navigate('Notifications')}>
+          <Text>Notifications</Text>
+        </TouchableOpacity>
+      </ScrollView>
+    </SafeAreaView>
+  );
+}
+
 const Tab = createBottomTabNavigator();
 
 const navOptionHandler = () => ({
@@ -139,41 +178,54 @@ function SettingStack() {
   );
 }
 
+function TabNavigator() {
+  return (
+    <Tab.Navigator
+      screenOptions={({route}) => ({
+        tabBarIcon: ({focused, color, size}) => {
+          let iconName;
+
+          if (route.name === 'Home') {
+            iconName = focused
+              ? require('./src/images/home-color.png')
+              : require('./src/images/home.png');
+          } else if (route.name === 'Settings') {
+            iconName = focused
+              ? require('./src/images/setting-color.png')
+              : require('./src/images/setting.png');
+          }
+
+          // You can return any component that you like here!
+          return (
+            <Image
+              source={iconName}
+              style={{width: 20, height: 20}}
+              resizeMode="contain"
+            />
+          );
+        },
+      })}
+      tabBarOptions={{
+        activeTintColor: 'black',
+        inactiveTintColor: 'gray',
+      }}>
+      <Tab.Screen name="Home" component={HomeStack} />
+      <Tab.Screen name="Settings" component={SettingStack} />
+    </Tab.Navigator>
+  );
+}
+
+const Drawer = createDrawerNavigator();
+
 export default function App() {
   return (
     <NavigationContainer>
-      <Tab.Navigator
-        screenOptions={({route}) => ({
-          tabBarIcon: ({focused, color, size}) => {
-            let iconName;
-
-            if (route.name === 'Home') {
-              iconName = focused
-                ? require('./src/images/home-color.png')
-                : require('./src/images/home.png');
-            } else if (route.name === 'Settings') {
-              iconName = focused
-                ? require('./src/images/setting-color.png')
-                : require('./src/images/setting.png');
-            }
-
-            // You can return any component that you like here!
-            return (
-              <Image
-                source={iconName}
-                style={{width: 20, height: 20}}
-                resizeMode="contain"
-              />
-            );
-          },
-        })}
-        tabBarOptions={{
-          activeTintColor: 'black',
-          inactiveTintColor: 'gray',
-        }}>
-        <Tab.Screen name="Home" component={HomeStack} />
-        <Tab.Screen name="Settings" component={SettingStack} />
-      </Tab.Navigator>
+      <Drawer.Navigator
+        initialRouteName="MenuTab"
+        drawerContent={props => CustomDrawerContent(props)}>
+        <Drawer.Screen name="MenuTab" component={TabNavigator} />
+        <Drawer.Screen name="Notifications" component={NotificationsScreen} />
+      </Drawer.Navigator>
     </NavigationContainer>
   );
 }
@@ -229,5 +281,19 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     alignItems: 'center',
     padding: 5,
+  },
+  drawerWrapper: {
+    flex: 1,
+    backgroundColor: '#FFFFFF',
+  },
+  profile: {
+    height: 150,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  profileImage: {
+    height: 100,
+    width: 100,
+    borderRadius: 60,
   },
 });
