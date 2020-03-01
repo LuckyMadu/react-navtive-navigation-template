@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import {CustomHeader} from '../index';
 
-export default class SettingScreen extends Component {
+export class SettingScreen extends Component {
   render() {
     return (
       <SafeAreaView style={{flex: 1}}>

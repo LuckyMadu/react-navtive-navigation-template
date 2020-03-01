@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import {CustomHeader} from '../index';
 
-export default class HomeScreen extends Component {
+export class HomeScreen extends Component {
   render() {
     return (
       <SafeAreaView style={{flex: 1}}>

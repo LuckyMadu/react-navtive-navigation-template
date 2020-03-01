@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {StyleSheet, Text, View, SafeAreaView} from 'react-native';
 import {CustomHeader} from '../index';
 
-export default class HomeDetailScreen extends Component {
+export class HomeDetailScreen extends Component {
   render() {
     return (
       <SafeAreaView style={{flex: 1}}>

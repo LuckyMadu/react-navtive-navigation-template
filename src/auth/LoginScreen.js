@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-export default class LoginScreen extends Component {
+export class LoginScreen extends Component {
   render() {
     return (
       <SafeAreaView style={{flex: 1}}>

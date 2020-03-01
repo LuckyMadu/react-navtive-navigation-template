@@ -6,16 +6,16 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 
 import {CustomHeader} from './src/common/CustomHeader';
-import {CustomDrawerContent} from './src/common/CustomDrawer';
+import {CustomDrawer} from './src/common/CustomDrawer';
 
 import {
   HomeScreen,
   HomeDetailScreen,
-  SettingsScreen,
-  SettingsDetailScreen,
+  SettingScreen,
+  SettingDetailScreen,
 } from './src/tab';
 
-import {NotificationsScreen} from './src/drawer';
+import {NotificationScreen} from './src/drawer';
 import {LoginScreen, RegisterScreen} from './src/auth';
 import {IMAGE} from './src/constants/images';
 
@@ -50,12 +50,12 @@ function SettingStack() {
     <StackSetting.Navigator initialRouteName="Setting">
       <StackSetting.Screen
         name="Setting"
-        component={SettingsScreen}
+        component={SettingScreen}
         options={navOptionHandler}
       />
       <StackSetting.Screen
         name="SettingDetail"
-        component={SettingsDetailScreen}
+        component={SettingDetailScreen}
         options={navOptionHandler}
       />
     </StackSetting.Navigator>
@@ -97,13 +97,13 @@ function TabNavigator() {
 
 const Drawer = createDrawerNavigator();
 
-function DrawerNavigator() {
+function DrawerNavigator({navigation}) {
   return (
     <Drawer.Navigator
       initialRouteName="MenuTab"
-      drawerContent={props => CustomDrawerContent(props)}>
+      drawerContent={() => <CustomDrawer navigation={navigation} />}>
       <Drawer.Screen name="MenuTab" component={TabNavigator} />
-      <Drawer.Screen name="Notifications" component={NotificationsScreen} />
+      <Drawer.Screen name="Notifications" component={NotificationScreen} />
     </Drawer.Navigator>
   );
 }

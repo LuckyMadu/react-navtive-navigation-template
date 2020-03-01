@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
 import {IMAGE} from '../constants/images';
 
-export default class CustomHeader extends Component {
+export class CustomHeader extends Component {
   render() {
     return (
       <View style={styles.header}>

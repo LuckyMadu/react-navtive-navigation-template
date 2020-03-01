@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import {IMAGE} from '../constants/images';
 
-export default class CustomDrawer extends Component {
+export class CustomDrawer extends Component {
   render() {
     return (
       <SafeAreaView style={styles.drawerWrapper}>
